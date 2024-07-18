@@ -1,14 +1,15 @@
 import React from 'react';
 import Header from './components/header/header';
 import BodyOne from './components/bodyOne/bodyOne';
+import BodyTwo from './components/bodyTwo/bodyTwo';
 
 const App: React.FC = () => {
   return (
-    <div className="min-h-screen w-full">
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="h-[90vh]">
+      <main className="flex-grow">
         <BodyOne />
-        {/* Article carousel component will go here */}
+        <BodyTwo />
       </main>
     </div>
   );
