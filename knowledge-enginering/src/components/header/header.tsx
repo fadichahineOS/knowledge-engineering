@@ -2,7 +2,7 @@ import React from 'react';
 
 const Header: React.FC = () => {
   return (
-    <header className="w-full bg-white flex items-center justify-between px-4 py-2">
+    <header className="w-full bg-[#f6f6f6] flex items-center justify-between px-4 py-2 shadow-sm ">
       <div className="flex flex-col items-start -space-y-3">
         <span className="text-2xl font-bold">Knowledge</span>
         <span className="text-2xl font-bold text-custom-blue ml-[25%]">Engineering</span>
