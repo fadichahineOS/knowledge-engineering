@@ -1,19 +1,16 @@
 import React from 'react';
-import Header from './components/header/header';
-import BodyOne from './components/bodyOne/bodyOne';
-import BodyTwo from './components/bodyTwo/bodyTwo';
-import Footer from './components/footer/footer';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import LandingPage from './components/landingPage';
+import WriterSignIn from './components/writerSignIn';
 
 const App: React.FC = () => {
   return (
-    <div className="flex flex-col min-h-screen bg-[#f6f6f6]">
-      <Header />
-      <main className="flex-grow">
-        <BodyOne />
-        <BodyTwo />
-      </main>
-      <Footer />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/writer-signin" element={<WriterSignIn />} />
+      </Routes>
+    </Router>
   );
 };
 
