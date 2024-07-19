@@ -22,7 +22,7 @@ const Header: React.FC = () => {
         <input
           type="text"
           placeholder="Search"
-          className="pl-8 pr-2 py-1 border-b border-custom-blue focus:outline-none"
+          className="pl-8 pr-2 py-1 border-b border-custom-blue focus:outline-none bg-[#f6f6f6]"
         />
         <svg
           className="absolute left-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-custom-blue"

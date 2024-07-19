@@ -1,6 +1,6 @@
 import React from 'react';
-import js from '../../assets/js.svg'
-import bridge from '../../assets/bridge.svg'
+import js from '/src/assets/js.svg';
+import bridge from '/src/assets/bridge.svg';
 
 const BodyOne: React.FC = () => {
   return (
