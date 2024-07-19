@@ -2,7 +2,6 @@ import React from 'react';
 import js from '../../assets/js.svg'
 import bridge from '../../assets/bridge.svg'
 
-
 const BodyOne: React.FC = () => {
   return (
     <div className="h-[40vh] w-full flex justify-between items-center px-8 overflow-hidden">
@@ -12,7 +11,7 @@ const BodyOne: React.FC = () => {
           Knowledge Engineering is a platform by young professionals, for young professionals.
           Stay up to date with your industry, or write for us and express your passion for engineering.
         </p>
-        <button className="bg-blue-600 text-white px-6 py-3 rounded-md w-40 shadow-md hover:bg-blue-700 transition duration-300 text-lg">
+        <button className="bg-custom-blue text-white px-6 py-3 rounded-md w-40 shadow-md hover:bg-opacity-90 transition duration-300 text-lg">
           Contact Us
         </button>
       </div>
@@ -27,4 +26,3 @@ const BodyOne: React.FC = () => {
 };
 
 export default BodyOne;
-

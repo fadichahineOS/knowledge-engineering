@@ -5,14 +5,14 @@ const Header: React.FC = () => {
     <header className="w-full bg-white flex items-center justify-between px-4 py-2">
       <div className="flex flex-col items-start -space-y-3">
         <span className="text-2xl font-bold">Knowledge</span>
-        <span className="text-2xl font-bold text-blue-600 ml-[25%]">Engineering</span>
+        <span className="text-2xl font-bold text-custom-blue ml-[25%]">Engineering</span>
       </div>
       <div className="flex-grow flex justify-center">
         <nav>
           <ul className="flex space-x-6">
             {['Software', 'Electronic', 'Bio-Medical', 'Civil', 'Computer'].map((item) => (
               <li key={item}>
-                <a href="#" className="text-gray-600 hover:text-gray-900">{item}</a>
+                <a href="#" className="text-gray-600 hover:text-custom-blue">{item}</a>
               </li>
             ))}
           </ul>
@@ -22,10 +22,10 @@ const Header: React.FC = () => {
         <input
           type="text"
           placeholder="Search"
-          className="pl-8 pr-2 py-1 border-b border-blue-600 focus:outline-none"
+          className="pl-8 pr-2 py-1 border-b border-custom-blue focus:outline-none"
         />
         <svg
-          className="absolute left-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-blue-600"
+          className="absolute left-2 top-1/2 transform -translate-y-1/2 w-4 h-4 text-custom-blue"
           fill="none"
           strokeLinecap="round"
           strokeLinejoin="round"
