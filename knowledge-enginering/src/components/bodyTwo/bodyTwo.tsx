@@ -43,6 +43,7 @@ const articles: Article[] = [
   { id: 4, title: 'Bio-Medical Engineering Article', category: 'Bio-Medical', imageUrl: bmSvg, publishDate: '2023-07-12', author: 'Emily Brown' },
   { id: 5, title: 'Civil Engineering Article', category: 'Civil', imageUrl: ceSvg, publishDate: '2023-07-11', author: 'Michael Lee' },
   { id: 6, title: 'Materials Engineering Article', category: 'Materials', imageUrl: meSvg, publishDate: '2023-07-10', author: 'Sarah Wilson' },
+  { id: 7, title: 'Software Engineering Article', category: 'Software', imageUrl: codeSvg, publishDate: '2023-07-09', author: 'David Miller' },
 ];
 
 const formatDate = (dateString: string) => {
@@ -61,21 +62,31 @@ const BodyTwo: React.FC = () => {
     const container = scrollRef.current;
     if (!container) return;
 
-    let animationFrameId: number;
-    let startTime: number;
+    let scrollAmount = 0;
+    const scrollSpeed = 0.5; // Adjust this value to change rotation speed
 
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp;
-      const progress = (timestamp - startTime) / 50000; // Adjust this value to change rotation speed
-      const scrollAmount = progress * container.scrollWidth;
-      container.scrollLeft = scrollAmount % container.scrollWidth;
-
-      animationFrameId = requestAnimationFrame(animate);
+    const scroll = () => {
+      scrollAmount += scrollSpeed;
+      if (scrollAmount >= container.scrollWidth / 2) {
+        scrollAmount = 0;
+      }
+      container.scrollLeft = scrollAmount;
     };
 
-    animationFrameId = requestAnimationFrame(animate);
+    const intervalId = setInterval(scroll, 16); // ~60fps
 
-    return () => cancelAnimationFrame(animationFrameId);
+    // Simulate small user interaction to keep the animation active
+    const keepAlive = setInterval(() => {
+      container.scrollLeft += 1;
+      setTimeout(() => {
+        container.scrollLeft -= 1;
+      }, 50);
+    }, 5000);
+
+    return () => {
+      clearInterval(intervalId);
+      clearInterval(keepAlive);
+    };
   }, []);
 
   return (
@@ -85,7 +96,6 @@ const BodyTwo: React.FC = () => {
         <div 
           ref={scrollRef}
           className="flex w-full overflow-x-hidden py-4 scrollbar-hide"
-          style={{ scrollBehavior: 'smooth' }}
         >
           {[...articles, ...articles].map((article, index) => (
             <div key={`${article.id}-${index}`} className="flex-shrink-0 px-2">
