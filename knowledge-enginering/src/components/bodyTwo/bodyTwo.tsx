@@ -1,5 +1,4 @@
-import React, { useState, useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useEffect, useRef } from 'react';
 
 // Import SVG assets
 import codeSvg from '../../assets/se.svg';
@@ -23,20 +22,19 @@ const getCategoryColor = (category: string): string => {
     case 'Software':
       return 'bg-custom-blue';
     case 'Electrical':
-      return 'bg-red-400'; // Changed to a more visible reddish color
+      return 'bg-red-400';
     case 'Aerospace':
-      return 'bg-gray-400'; // Slightly darkened for better visibility
+      return 'bg-gray-400';
     case 'Bio-Medical':
-      return 'bg-green-400'; // Slightly darkened for better visibility
+      return 'bg-green-400';
     case 'Civil':
-      return 'bg-yellow-400'; // Slightly darkened for better visibility
+      return 'bg-yellow-400';
     case 'Materials':
-      return 'bg-purple-400'; // Slightly darkened for better visibility
+      return 'bg-purple-400';
     default:
-      return 'bg-blue-600';
+      return 'bg-custom-blue';
   }
 };
-
 
 const articles: Article[] = [
   { id: 1, title: 'Software Engineering Article', category: 'Software', imageUrl: codeSvg, publishDate: '2023-07-15', author: 'John Doe' },
@@ -58,16 +56,27 @@ const formatDate = (dateString: string) => {
 
 const BodyTwo: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [scrollPosition, setScrollPosition] = useState(0);
 
-  const scroll = (direction: 'left' | 'right') => {
+  useEffect(() => {
     const container = scrollRef.current;
-    if (container) {
-      const scrollAmount = direction === 'left' ? -300 : 300;
-      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-      setScrollPosition(container.scrollLeft + scrollAmount);
-    }
-  };
+    if (!container) return;
+
+    let animationFrameId: number;
+    let startTime: number;
+
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = (timestamp - startTime) / 50000; // Adjust this value to change rotation speed
+      const scrollAmount = progress * container.scrollWidth;
+      container.scrollLeft = scrollAmount % container.scrollWidth;
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(animationFrameId);
+  }, []);
 
   return (
     <div className="flex-1 overflow-hidden relative flex flex-col">
@@ -75,11 +84,11 @@ const BodyTwo: React.FC = () => {
       <div className="relative flex-1 flex items-center px-16 pb-4">
         <div 
           ref={scrollRef}
-          className="flex w-full overflow-x-auto space-x-4 py-4 scrollbar-hide"
+          className="flex w-full overflow-x-hidden py-4 scrollbar-hide"
           style={{ scrollBehavior: 'smooth' }}
         >
-          {articles.map((article) => (
-            <div key={article.id} className="flex-shrink-0">
+          {[...articles, ...articles].map((article, index) => (
+            <div key={`${article.id}-${index}`} className="flex-shrink-0 px-2">
               <div className="w-[250px] h-[300px] relative group cursor-pointer bg-white rounded-lg shadow-md flex flex-col overflow-hidden">
                 <div className={`absolute left-0 top-0 bottom-0 w-8 ${getCategoryColor(article.category)} flex items-center justify-center z-10`}>
                   <div className="text-white text-sm transform -rotate-90 whitespace-nowrap" dangerouslySetInnerHTML={{ __html: formatDate(article.publishDate) }} />
@@ -99,18 +108,8 @@ const BodyTwo: React.FC = () => {
             </div>
           ))}
         </div>
-        <button 
-          onClick={() => scroll('left')} 
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2 shadow-md z-10"
-        >
-          <ChevronLeft size={24} />
-        </button>
-        <button 
-          onClick={() => scroll('right')} 
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2 shadow-md z-10"
-        >
-          <ChevronRight size={24} />
-        </button>
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10"></div>
       </div>
     </div>
   );
