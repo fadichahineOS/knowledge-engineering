@@ -2,21 +2,19 @@ import React from 'react';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="w-full h-[50vh] bg-gray-100 flex justify-between items-stretch px-4 sm:px-8 overflow-hidden">
-      <div className="flex flex-col justify-center space-y-4 text-xl">
-        <a href="#" className="block hover:text-blue-600">Writer Log-in</a>
-        <a href="#" className="block hover:text-blue-600">Our Mission</a>
-        <a href="#" className="block hover:text-blue-600">Twitter</a>
-        <a href="#" className="block hover:text-blue-600">Facebook</a>
-        <a href="#" className="block hover:text-blue-600">Instagram</a>
-        <a href="#" className="block hover:text-blue-600">Write For Us</a>
+    <footer className="w-full bg-[#f6f6f6] flex items-center justify-between px-4 py-2 shadow-sm">
+      <div className="flex flex-col items-start -space-y-3">
+        <span className="text-2xl font-bold">Knowledge</span>
+        <span className="text-2xl font-bold text-custom-blue ml-[25%]">Engineering</span>
       </div>
-      <div className="flex items-end pb-8">
-        <div className="flex flex-col items-start -space-y-1 sm:-space-y-2">
-          <span className="text-2xl sm:text-3xl md:text-4xl font-bold">Knowledge</span>
-          <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-600 ml-[25%]">Engineering</span>
-        </div>
-      </div>
+      <nav className="flex space-x-6">
+        <a href="#" className="text-gray-600 hover:text-custom-blue">Writer Log-in</a>
+        <a href="#" className="text-gray-600 hover:text-custom-blue">Our Mission</a>
+        <a href="#" className="text-gray-600 hover:text-custom-blue">Twitter</a>
+        <a href="#" className="text-gray-600 hover:text-custom-blue">Facebook</a>
+        <a href="#" className="text-gray-600 hover:text-custom-blue">Instagram</a>
+        <a href="#" className="text-gray-600 hover:text-custom-blue">Write For Us</a>
+      </nav>
     </footer>
   );
 };
