@@ -15,16 +15,36 @@ interface Article {
   category: string;
   imageUrl: string;
   publishDate: string;
+  author: string;
 }
 
+const getCategoryColor = (category: string): string => {
+  switch (category) {
+    case 'Software':
+      return 'bg-custom-blue';
+    case 'Electrical':
+      return 'bg-red-400'; // Changed to a more visible reddish color
+    case 'Aerospace':
+      return 'bg-gray-400'; // Slightly darkened for better visibility
+    case 'Bio-Medical':
+      return 'bg-green-400'; // Slightly darkened for better visibility
+    case 'Civil':
+      return 'bg-yellow-400'; // Slightly darkened for better visibility
+    case 'Materials':
+      return 'bg-purple-400'; // Slightly darkened for better visibility
+    default:
+      return 'bg-blue-600';
+  }
+};
+
+
 const articles: Article[] = [
-  { id: 1, title: 'Software Engineering Article', category: 'Software', imageUrl: codeSvg, publishDate: '2023-07-15' },
-  { id: 2, title: 'Electrical Engineering Article', category: 'Electrical', imageUrl: eeSvg, publishDate: '2023-07-14' },
-  { id: 3, title: 'Aerospace Engineering Article', category: 'Aerospace', imageUrl: aeSvg, publishDate: '2023-07-13' },
-  { id: 4, title: 'Bio-Medical Engineering Article', category: 'Bio-Medical', imageUrl: bmSvg, publishDate: '2023-07-12' },
-  { id: 5, title: 'Civil Engineering Article', category: 'Civil', imageUrl: ceSvg, publishDate: '2023-07-11' },
-  { id: 6, title: 'Materials Engineering Article', category: 'Materials', imageUrl: meSvg, publishDate: '2023-07-10' },
-  { id: 7, title: 'Software Engineering Article', category: 'Software', imageUrl: codeSvg, publishDate: '2023-07-09' },
+  { id: 1, title: 'Software Engineering Article', category: 'Software', imageUrl: codeSvg, publishDate: '2023-07-15', author: 'John Doe' },
+  { id: 2, title: 'Electrical Engineering Article', category: 'Electrical', imageUrl: eeSvg, publishDate: '2023-07-14', author: 'Jane Smith' },
+  { id: 3, title: 'Aerospace Engineering Article', category: 'Aerospace', imageUrl: aeSvg, publishDate: '2023-07-13', author: 'Alex Johnson' },
+  { id: 4, title: 'Bio-Medical Engineering Article', category: 'Bio-Medical', imageUrl: bmSvg, publishDate: '2023-07-12', author: 'Emily Brown' },
+  { id: 5, title: 'Civil Engineering Article', category: 'Civil', imageUrl: ceSvg, publishDate: '2023-07-11', author: 'Michael Lee' },
+  { id: 6, title: 'Materials Engineering Article', category: 'Materials', imageUrl: meSvg, publishDate: '2023-07-10', author: 'Sarah Wilson' },
 ];
 
 const formatDate = (dateString: string) => {
@@ -61,7 +81,7 @@ const BodyTwo: React.FC = () => {
           {articles.map((article) => (
             <div key={article.id} className="flex-shrink-0">
               <div className="w-[250px] h-[300px] relative group cursor-pointer bg-white rounded-lg shadow-md flex flex-col overflow-hidden">
-                <div className="absolute left-0 top-0 bottom-0 w-8 bg-blue-600 flex items-center justify-center z-10">
+                <div className={`absolute left-0 top-0 bottom-0 w-8 ${getCategoryColor(article.category)} flex items-center justify-center z-10`}>
                   <div className="text-white text-sm transform -rotate-90 whitespace-nowrap" dangerouslySetInnerHTML={{ __html: formatDate(article.publishDate) }} />
                 </div>
                 <div className="flex-grow flex items-center justify-center overflow-hidden">
@@ -73,7 +93,7 @@ const BodyTwo: React.FC = () => {
                 </div>
                 <div className="p-2 text-center bg-white relative z-20">
                   <h3 className="text-sm font-semibold">{article.title}</h3>
-                  <p className="text-xs text-gray-600">{article.category}</p>
+                  <p className="text-xs text-gray-600">{article.author}</p>
                 </div>
               </div>
             </div>
