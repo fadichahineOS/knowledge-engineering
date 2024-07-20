@@ -9,7 +9,7 @@ const SignInPage: React.FC = () => {
   };
 
   return (
-    <div className="flex h-[90vh] bg-[#f6f6f6]">
+    <div className="flex h-screen bg-[#f6f6f6]">
       <div className="w-1/2 bg-cover bg-center" style={{backgroundImage: "url('/src/assets/blue.jpg')"}}>
         {/* Left side with background image */}
       </div>

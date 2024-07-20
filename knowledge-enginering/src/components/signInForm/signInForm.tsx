@@ -11,9 +11,10 @@ interface Field {
 interface SignInFormProps {
   fields: Field[];
   onSubmit: (data: Record<string, string>) => void;
+  submitButtonText?: string;
 }
 
-const SignInForm: React.FC<SignInFormProps> = ({ fields, onSubmit }) => {
+const SignInForm: React.FC<SignInFormProps> = ({ fields, onSubmit, submitButtonText = "Sign In" }) => {
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -39,10 +40,15 @@ const SignInForm: React.FC<SignInFormProps> = ({ fields, onSubmit }) => {
     });
 
     if (Object.keys(newErrors).length === 0) {
-      onSubmit(formData);
-    } else {
-      setErrors(newErrors);
+      if (formData.password && formData.confirmPassword && formData.password !== formData.confirmPassword) {
+        newErrors.confirmPassword = "Passwords do not match";
+      } else {
+        onSubmit(formData);
+        return;
+      }
     }
+
+    setErrors(newErrors);
   };
 
   return (
@@ -71,7 +77,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ fields, onSubmit }) => {
         type="submit"
         className="w-full bg-custom-blue text-white py-2 rounded-md hover:bg-opacity-90 transition duration-300"
       >
-        Sign In
+        {submitButtonText}
       </button>
     </form>
   );
