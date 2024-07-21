@@ -1,11 +1,23 @@
 import React from 'react';
 import { Mail, Key } from 'lucide-react';
 import SignInForm from './signInForm/signInForm';
+import { useNavigate } from 'react-router-dom';
 
 const SignIn: React.FC = () => {
+  const navigate = useNavigate();
+
   const handleSignIn = (data: Record<string, string>) => {
     console.log('Sign in data:', data);
-    // Handle sign in logic here
+    // Here you would typically make an API call to authenticate the user
+    // For this example, we'll simulate a successful sign-in
+    
+    // Simulating an API call
+    setTimeout(() => {
+      // Assume sign-in is successful
+      console.log('Sign-in successful');
+      // Redirect to the writer profile page
+      navigate('/writer-profile');
+    }, 1000);
   };
 
   return (
