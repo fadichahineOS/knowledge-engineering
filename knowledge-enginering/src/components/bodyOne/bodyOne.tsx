@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import js from '/src/assets/js.svg';
 import bridge from '/src/assets/bridge.svg';
 
@@ -11,9 +12,11 @@ const BodyOne: React.FC = () => {
           Knowledge Engineering is a platform by young professionals, for young professionals.
           Stay up to date with your industry, or write for us and express your passion for engineering.
         </p>
-        <button className="bg-custom-blue text-white px-6 py-3 rounded-md w-40 shadow-md hover:bg-opacity-90 transition duration-300 text-lg">
-          Contact Us
-        </button>
+        <Link to="/contact">
+          <button className="bg-custom-blue text-white px-6 py-3 rounded-md w-40 shadow-md hover:bg-opacity-90 transition duration-300 text-lg">
+            Contact Us
+          </button>
+        </Link>
       </div>
       <div className="relative flex flex-col items-end justify-end w-1/2 h-full">
         <div className="absolute right-[-10%] bottom-0">
