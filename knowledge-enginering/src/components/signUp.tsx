@@ -1,11 +1,19 @@
 import React from 'react';
 import { Mail, Key, User } from 'lucide-react';
 import SignInForm from './signInForm/signInForm';
+import { useNavigate } from 'react-router-dom';
 
 const SignUpPage: React.FC = () => {
+  const navigate = useNavigate();
+
   const handleSignUp = (data: Record<string, string>) => {
     console.log('Sign up data:', data);
-    // Handle sign up logic here
+    // Simulate a successful sign-up
+    setTimeout(() => {
+      console.log('Sign-up successful');
+      // Redirect to the reader profile page
+      navigate('/reader-profile');
+    }, 1000);
   };
 
   return (
