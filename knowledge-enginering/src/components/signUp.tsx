@@ -10,7 +10,7 @@ const SignUpPage: React.FC = () => {
 
   return (
     <div className="flex h-screen bg-[#f6f6f6]">
-      <div className="w-1/2 bg-cover bg-center" style={{backgroundImage: "url('/src/assets/blue-leds.jpg')"}}>
+      <div className="w-1/2 bg-cover bg-center" style={{backgroundImage: "url('/src/assets/sc.jpg')"}}>
         {/* Left side with background image */}
       </div>
       <div className="w-1/2 flex flex-col items-start p-12">

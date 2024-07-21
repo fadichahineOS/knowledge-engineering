@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Field {
   name: string;
@@ -17,6 +18,7 @@ interface SignInFormProps {
 const SignInForm: React.FC<SignInFormProps> = ({ fields, onSubmit, submitButtonText = "Sign In" }) => {
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -51,6 +53,10 @@ const SignInForm: React.FC<SignInFormProps> = ({ fields, onSubmit, submitButtonT
     setErrors(newErrors);
   };
 
+  const handleGoBack = () => {
+    navigate('/');  // Navigate to the root path (landing page)
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6 w-1/2">
       {fields.map((field) => (
@@ -73,12 +79,21 @@ const SignInForm: React.FC<SignInFormProps> = ({ fields, onSubmit, submitButtonT
           )}
         </div>
       ))}
-      <button
-        type="submit"
-        className="w-full bg-custom-blue text-white py-2 rounded-md hover:bg-opacity-90 transition duration-300"
-      >
-        {submitButtonText}
-      </button>
+      <div className="flex justify-around items-center">
+        <button
+          type="submit"
+          className="w-[40%] bg-custom-blue text-white py-2 px-4 rounded-md hover:bg-opacity-90 transition duration-300"
+        >
+          {submitButtonText}
+        </button>
+        <button
+          type="button"
+          onClick={handleGoBack}
+          className="w-[40%] bg-gray-200 text-custom-blue py-2 px-4 rounded-md hover:bg-gray-300 transition duration-300"
+        >
+          Go Back
+        </button>
+      </div>
     </form>
   );
 };
