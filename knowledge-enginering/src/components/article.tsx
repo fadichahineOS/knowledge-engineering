@@ -6,7 +6,7 @@ import articleData from './article-data-json.json';
 
 const ArticlePage: React.FC = () => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-[#f6f6f6]">
       <Header />
       <main className="flex-grow flex flex-col">
         <div className="w-full h-[20vh] overflow-hidden">
