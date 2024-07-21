@@ -43,7 +43,6 @@ const articles: Article[] = [
   { id: 4, title: 'Bio-Medical Engineering Article', category: 'Bio-Medical', imageUrl: bmSvg, publishDate: '2023-07-12', author: 'Emily Brown' },
   { id: 5, title: 'Civil Engineering Article', category: 'Civil', imageUrl: ceSvg, publishDate: '2023-07-11', author: 'Michael Lee' },
   { id: 6, title: 'Materials Engineering Article', category: 'Materials', imageUrl: meSvg, publishDate: '2023-07-10', author: 'Sarah Wilson' },
-  { id: 7, title: 'Software Engineering Article', category: 'Software', imageUrl: codeSvg, publishDate: '2023-07-09', author: 'David Miller' },
 ];
 
 const formatDate = (dateString: string) => {
