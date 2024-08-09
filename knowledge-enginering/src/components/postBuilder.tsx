@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 interface Image {
   id: string;
-  url: string;
-  position: 'left' | 'right' | 'center';
+  file: File;
+  preview: string;
+  position: 'left' | 'center' | 'right';
 }
 
 const PostBuilder: React.FC = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [images, setImages] = useState<Image[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -23,31 +24,24 @@ const PostBuilder: React.FC = () => {
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const newImage: Image = {
-          id: Date.now().toString(),
-          url: reader.result as string,
-          position: 'center',
-        };
-        setImages([...images, newImage]);
-      };
-      reader.readAsDataURL(file);
+    const files = e.target.files;
+    if (files) {
+      const newImages: Image[] = Array.from(files).map(file => ({
+        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+        file,
+        preview: URL.createObjectURL(file),
+        position: 'center'
+      }));
+      setImages(prevImages => [...prevImages, ...newImages]);
     }
   };
 
-  const handleImagePositionChange = (id: string, position: 'left' | 'right' | 'center') => {
-    setImages(images.map(img => img.id === id ? { ...img, position } : img));
-  };
-
-  const onDragEnd = (result: any) => {
-    if (!result.destination) return;
-    const items = Array.from(images);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    setImages(items);
+  const handleImagePositionChange = (id: string, position: 'left' | 'center' | 'right') => {
+    setImages(prevImages => 
+      prevImages.map(img => 
+        img.id === id ? { ...img, position } : img
+      )
+    );
   };
 
   const handleSubmit = () => {
@@ -64,45 +58,42 @@ const PostBuilder: React.FC = () => {
         placeholder="Enter article title"
         className="w-full text-2xl font-bold mb-4 p-2 border rounded"
       />
-      <ReactQuill value={content} onChange={handleContentChange} />
-      <div className="my-4">
-        <input type="file" accept="image/*" onChange={handleImageUpload} />
+      <ReactQuill value={content} onChange={handleContentChange} className="mb-4" />
+      <div className="mb-4">
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleImageUpload}
+          accept="image/*"
+          multiple
+          className="hidden"
+        />
+        <button
+          onClick={() => fileInputRef.current?.click()}
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Upload Images
+        </button>
       </div>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="images">
-          {(provided) => (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
-              {images.map((image, index) => (
-                <Draggable key={image.id} draggableId={image.id} index={index}>
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      className="mb-4"
-                    >
-                      <img src={image.url} alt="Uploaded content" className="max-w-full h-auto" />
-                      <select
-                        value={image.position}
-                        onChange={(e) => handleImagePositionChange(image.id, e.target.value as 'left' | 'right' | 'center')}
-                        className="mt-2"
-                      >
-                        <option value="left">Left</option>
-                        <option value="center">Center</option>
-                        <option value="right">Right</option>
-                      </select>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+        {images.map((image) => (
+          <div key={image.id} className="border p-2 rounded">
+            <img src={image.preview} alt="Preview" className="w-full h-32 object-cover mb-2" />
+            <select
+              value={image.position}
+              onChange={(e) => handleImagePositionChange(image.id, e.target.value as 'left' | 'center' | 'right')}
+              className="w-full p-1 border rounded"
+            >
+              <option value="left">Left</option>
+              <option value="center">Center</option>
+              <option value="right">Right</option>
+            </select>
+          </div>
+        ))}
+      </div>
       <button
         onClick={handleSubmit}
-        className="mt-4 bg-custom-blue text-white px-4 py-2 rounded"
+        className="bg-green-500 text-white px-6 py-2 rounded"
       >
         Submit Article
       </button>
@@ -111,4 +102,3 @@ const PostBuilder: React.FC = () => {
 };
 
 export default PostBuilder;
-
