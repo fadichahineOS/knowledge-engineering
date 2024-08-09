@@ -1,52 +1,25 @@
 import React, { useState, useRef } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import { Editor } from '@tinymce/tinymce-react';
 
-interface Image {
-  id: string;
-  file: File;
-  preview: string;
-  position: 'left' | 'center' | 'right';
-}
-
-const PostBuilder: React.FC = () => {
+const ArticleBuilder: React.FC = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [images, setImages] = useState<Image[]>([]);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const editorRef = useRef<any>(null);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
-  const handleContentChange = (value: string) => {
-    setContent(value);
-  };
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files) {
-      const newImages: Image[] = Array.from(files).map(file => ({
-        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-        file,
-        preview: URL.createObjectURL(file),
-        position: 'center'
-      }));
-      setImages(prevImages => [...prevImages, ...newImages]);
-    }
-  };
-
-  const handleImagePositionChange = (id: string, position: 'left' | 'center' | 'right') => {
-    setImages(prevImages => 
-      prevImages.map(img => 
-        img.id === id ? { ...img, position } : img
-      )
-    );
+  const handleEditorChange = (content: string, editor: any) => {
+    setContent(content);
   };
 
   const handleSubmit = () => {
-    // Here you would typically send the article data to your backend
-    console.log({ title, content, images });
+    if (editorRef.current) {
+      const content = editorRef.current.getContent();
+      console.log({ title, content });
+      // Here you would typically send the article data to your backend
+    }
   };
 
   return (
@@ -58,42 +31,28 @@ const PostBuilder: React.FC = () => {
         placeholder="Enter article title"
         className="w-full text-2xl font-bold mb-4 p-2 border rounded"
       />
-      <ReactQuill value={content} onChange={handleContentChange} className="mb-4" />
-      <div className="mb-4">
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleImageUpload}
-          accept="image/*"
-          multiple
-          className="hidden"
-        />
-        <button
-          onClick={() => fileInputRef.current?.click()}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          Upload Images
-        </button>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-        {images.map((image) => (
-          <div key={image.id} className="border p-2 rounded">
-            <img src={image.preview} alt="Preview" className="w-full h-32 object-cover mb-2" />
-            <select
-              value={image.position}
-              onChange={(e) => handleImagePositionChange(image.id, e.target.value as 'left' | 'center' | 'right')}
-              className="w-full p-1 border rounded"
-            >
-              <option value="left">Left</option>
-              <option value="center">Center</option>
-              <option value="right">Right</option>
-            </select>
-          </div>
-        ))}
-      </div>
+      <Editor
+        apiKey="your-tinymce-api-key"
+        onInit={(evt, editor) => editorRef.current = editor}
+        init={{
+          height: 500,
+          menubar: false,
+          plugins: [
+            'advlist autolink lists link image charmap print preview anchor',
+            'searchreplace visualblocks code fullscreen',
+            'insertdatetime media table paste code help wordcount'
+          ],
+          toolbar: 'undo redo | formatselect | ' +
+          'bold italic backcolor | alignleft aligncenter ' +
+          'alignright alignjustify | bullist numlist outdent indent | ' +
+          'removeformat | image | help',
+          content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+        }}
+        onEditorChange={handleEditorChange}
+      />
       <button
         onClick={handleSubmit}
-        className="bg-green-500 text-white px-6 py-2 rounded"
+        className="mt-4 bg-custom-blue text-white px-6 py-2 rounded"
       >
         Submit Article
       </button>
@@ -101,4 +60,4 @@ const PostBuilder: React.FC = () => {
   );
 };
 
-export default PostBuilder;
+export default ArticleBuilder;
