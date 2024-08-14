@@ -1,4 +1,4 @@
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes, Op } from 'sequelize';
 import sequelize from '../config/database';
 
 class User extends Model {
@@ -7,6 +7,8 @@ class User extends Model {
   public email!: string;
   public password!: string;
   public role!: 'reader' | 'writer' | 'admin';
+  public resetToken?: string | null;
+  public resetTokenExpiry?: Date | null;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -39,6 +41,14 @@ User.init(
       type: DataTypes.ENUM('reader', 'writer', 'admin'),
       allowNull: false,
       defaultValue: 'reader',
+    },
+    resetToken: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    resetTokenExpiry: {
+      type: DataTypes.DATE,
+      allowNull: true,
     },
   },
   {
