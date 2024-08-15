@@ -1,17 +1,16 @@
 import sequelize from '../config/database';
 import User from './user';
-
-// Import other models here as we create them
+import Follow from './follow';
 
 const models = {
   User,
-  // Add other models here
+  Follow,
+  // Add other models here as we create them
 };
 
-// This will sync all models with the database
 const syncDatabase = async () => {
   try {
-    await sequelize.sync({ alter: true });
+    await sequelize.sync({ force: true });
     console.log('Database synchronized successfully.');
   } catch (error) {
     console.error('Unable to synchronize the database:', error);

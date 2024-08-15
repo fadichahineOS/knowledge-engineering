@@ -16,9 +16,7 @@ console.log('Email configuration:', {
   from: process.env.EMAIL_FROM
 });
 
-
 export const sendPasswordResetEmail = async (to: string, resetToken: string) => {
-  // Use localhost for development
   const resetUrl = `http://localhost:3000/reset-password?token=${resetToken}`;
 
   const mailOptions = {
