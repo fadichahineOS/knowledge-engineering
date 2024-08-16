@@ -1,19 +1,32 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Mail, Key, User } from 'lucide-react';
 import SignInForm from './signInForm/signInForm';
-import { useNavigate } from 'react-router-dom';
 
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
 
-  const handleSignUp = (data: Record<string, string>) => {
-    console.log('Sign up data:', data);
-    // Simulate a successful sign-up
-    setTimeout(() => {
-      console.log('Sign-up successful');
-      // Redirect to the reader profile page
+  const handleSignUp = async (data: Record<string, string>) => {
+    try {
+      const response = await fetch('http://localhost:3000/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Sign-up failed');
+      }
+
+      const result = await response.json();
+      console.log('Sign-up successful:', result);
       navigate('/reader-profile');
-    }, 1000);
+    } catch (error) {
+      console.error('Sign-up error:', error);
+      // Handle error (e.g., show error message to user)
+    }
   };
 
   return (
@@ -29,11 +42,18 @@ const SignUpPage: React.FC = () => {
         <SignInForm
           fields={[
             { 
-              name: 'fullName', 
+              name: 'firstName', 
               type: 'text', 
-              placeholder: 'Full Name', 
+              placeholder: 'First Name', 
               icon: <User size={16} />,
-              validation: (value) => value.length > 0 ? null : 'Full name is required'
+              validation: (value) => value.length > 0 ? null : 'First name is required'
+            },
+            { 
+              name: 'lastName', 
+              type: 'text', 
+              placeholder: 'Last Name', 
+              icon: <User size={16} />,
+              validation: (value) => value.length > 0 ? null : 'Last name is required'
             },
             { 
               name: 'email', 

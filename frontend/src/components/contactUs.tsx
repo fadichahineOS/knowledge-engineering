@@ -1,17 +1,32 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Phone, User, Briefcase } from 'lucide-react';
+import { Mail, Phone, User, Briefcase, Key } from 'lucide-react';
 import SignInForm from './signInForm/signInForm';
 
 const ContactUs: React.FC = () => {
   const navigate = useNavigate();
 
-  const handleContact = (data: Record<string, string>) => {
-    console.log('Contact form data:', data);
-    // Handle contact form submission logic here
-    
-    // Redirect to the confirmation page
-    navigate('/contact-confirmation');
+  const handleWriterSignup = async (data: Record<string, string>) => {
+    try {
+      const response = await fetch('http://localhost:3000/api/users/writer-signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error('Writer signup failed');
+      }
+
+      const result = await response.json();
+      console.log('Writer signup successful:', result);
+      navigate('/contact-confirmation');
+    } catch (error) {
+      console.error('Writer signup error:', error);
+      // Handle error (e.g., show error message to user)
+    }
   };
 
   return (
@@ -66,10 +81,24 @@ const ContactUs: React.FC = () => {
               placeholder: 'Engineering Discipline/Interest',
               icon: <Briefcase size={16} />,
               validation: (value) => value.length > 0 ? null : 'Engineering discipline/interest is required'
+            },
+            { 
+              name: 'password', 
+              type: 'password', 
+              placeholder: 'Password',
+              icon: <Key size={16} />,
+              validation: (value) => value.length >= 8 ? null : 'Password must be at least 8 characters'
+            },
+            { 
+              name: 'confirmPassword', 
+              type: 'password', 
+              placeholder: 'Confirm Password',
+              icon: <Key size={16} />,
+              validation: (value) => value.length >= 8 ? null : 'Password must be at least 8 characters'
             }
           ]}
-          onSubmit={handleContact}
-          submitButtonText="Submit"
+          onSubmit={handleWriterSignup}
+          submitButtonText="Sign Up as Writer"
         />
       </div>
     </div>
