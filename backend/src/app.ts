@@ -2,6 +2,7 @@ import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import userRoutes from './routes/userRoutes';
+import articleRoutes from './routes/articleRoutes';
 import { errorHandler } from './middlewares/errorHandler';
 
 const app: Express = express();
@@ -14,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/users', userRoutes);
+app.use('/api/articles', articleRoutes);
 
 // Root route
 app.get('/', (req: Request, res: Response) => {

@@ -1,12 +1,19 @@
 import sequelize from '../config/database';
-import User from './user';
-import Follow from './follow';
+import  User  from './user';
+import  Follow  from './follow';
+import { Article } from './article';
 
 const models = {
   User,
   Follow,
-  // Add other models here as we create them
+  Article,
 };
+
+Object.values(models).forEach((model: any) => {
+  if (model.associate) {
+    model.associate(models);
+  }
+});
 
 const syncDatabase = async () => {
   try {

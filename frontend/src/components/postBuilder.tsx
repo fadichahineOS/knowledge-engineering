@@ -32,7 +32,7 @@ const ArticleBuilder: React.FC = () => {
         className="w-full text-2xl font-bold mb-4 p-2 border rounded"
       />
       <Editor
-        apiKey="7i78e68qwtspwjh0ake12ac6auzgh3xqjorizhee6z2xnr8a"
+        apiKey=""
         onInit={(evt, editor) => editorRef.current = editor}
         init={{
           height: 500,
