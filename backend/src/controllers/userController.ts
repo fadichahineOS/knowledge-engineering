@@ -151,6 +151,15 @@ export const login = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Invalid email/username or password' });
     }
 
+    // Check if the user is a writer and if they're approved
+    if (user.role === 'writer' && !user.isApproved) {
+      return res.status(403).json({ 
+        message: 'Your writer account is pending approval. Please wait for admin approval.',
+        isApproved: false,
+        role: 'writer'
+      });
+    }
+
     const token = generateToken(user.id);
 
     res.json({
@@ -162,6 +171,7 @@ export const login = async (req: Request, res: Response) => {
         username: user.username,
         email: user.email,
         role: user.role,
+        isApproved: user.isApproved,
       },
       token,
     });
