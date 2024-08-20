@@ -51,7 +51,7 @@ export class Article extends Model<ArticleAttributes, ArticleCreationAttributes>
           type: DataTypes.INTEGER,
           allowNull: false,
           references: {
-            model: 'Users',
+            model: 'users',
             key: 'id',
           },
         },
@@ -73,7 +73,7 @@ export class Article extends Model<ArticleAttributes, ArticleCreationAttributes>
       {
         sequelize,
         modelName: 'Article',
-        tableName: 'Articles',
+        tableName: 'articles',
       }
     );
     return Article;

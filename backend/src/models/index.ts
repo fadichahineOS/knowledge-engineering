@@ -1,16 +1,16 @@
 import sequelize from '../config/database';
-import  User  from './user';
-import  Follow  from './follow';
+import User from './user';
+import Follow from './follow';
 import { Article } from './article';
 
 const models = {
   User,
   Follow,
-  Article,
+  Article: Article.initModel(sequelize),
 };
 
 Object.values(models).forEach((model: any) => {
-  if (model.associate) {
+  if (typeof model.associate === 'function') {
     model.associate(models);
   }
 });
